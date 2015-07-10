@@ -5,6 +5,7 @@
 var http = require('http');
 var https = require('https');
 var log = require('../util/log');
+var keepAliveAgent = new http.Agent({ keepAlive: true });
 
 function RpcClient(opts) {
   opts = opts || {};
@@ -163,7 +164,8 @@ function rpc(request, callback) {
     path: '/',
     method: 'POST',
     port: self.port,
-    agent: self.disableAgent ? false : undefined,
+    //agent: self.disableAgent ? false : undefined,
+    agent: keepAliveAgent,
   };
   if (self.httpOptions) {
     for (var k in self.httpOptions) {
